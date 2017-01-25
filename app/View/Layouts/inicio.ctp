@@ -27,6 +27,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<?php
 		echo $this->Html->meta('icon');
 
+		//echo $this->Html->css('cake.generic');
 		echo $this->Html->css('bootstrap');
 		echo $this->Html->script('jquery');
 		echo $this->Html->script('bootstrap');
@@ -37,14 +38,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	?>
 </head>
 <body>
-	<div id="container">
+	<div id="contenidos" class="container-fluid">
 		<div id="header" class="row">
-			<?php echo $this->element('menu'); ?>
+			<?php echo $this->element('cabecera'); ?>
 		</div>
-		<div id="content">
-
+		<div id="content" class="row">
 			<?php echo $this->Flash->render(); ?>
-
+			<?php echo $this->Flash->render('auth'); ?>
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer" class="row">
@@ -54,7 +54,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		</div>
 	</div>
 	<?php
-	echo $this->Js->writeBuffer();
+	echo $this->Js->writeBuffer(); // Write cached scripts (para JQuery)
 	?>
 </body>
 </html>

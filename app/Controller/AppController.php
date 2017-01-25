@@ -33,5 +33,39 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
     public $components = array(
         'DebugKit.Toolbar', 'Flash',
+        'Auth' => array(
+            'authenticate' => array(
+                'Form' => array('passwordHasher' => 'Blowfish')
+            ),
+            'loginRedirect' => array(
+                'controller' => 'emplazamientos',
+                'action' => 'index'
+            ),
+            'logoutRedirect' => array(
+                'controller' => 'users',
+                'action' => 'login',
+            ),
+            'unauthorizedRedirect' => array(
+                'controller' => 'emplazamientos',
+                'action' => 'index'
+            ),
+            'flash' => array('element' => 'auth', 'key' => 'auth'),
+            'authorize' => array('Controller'),
+            'authError' => 'No dispone de permisos para acceder a esta ubicación o su sesión ha expirado',
+        )
     );
+
+    public function isAuthorized($user) {
+        // Los admin pueden acceder a todo:
+        if (isset($user['role']) && $user['role'] === 'admin') {
+            return true;
+        }
+
+        if ($this->action === 'logout') {
+            return true;
+        }
+
+        // Por defecto se deniega el acceso
+        return false;
+    }
 }
