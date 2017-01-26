@@ -28,12 +28,31 @@ if ($rol != 'admin'){
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <?php
+                            if ($rol == 'admin'){
                             echo '<li';
-                            if ($controlador == "users"){
-                                echo ' class="active"';
+                                if ($controlador == "users"){
+                                    echo ' class="active"';
+                                }
+                                echo '>';
+                                echo $this->Html->Link(__('Usuarios'),array('controller' => 'users', 'action' => 'index'), array('title' => __('Usuarios')));
+                                echo '</li>';
                             }
-                            echo '>';
-                            echo $this->Html->Link(__('Usuarios'),array('controller' => 'users', 'action' => 'index'), array('title' => __('Usuarios')));
+                            echo '<li class="dropdown';
+                            $clase = '';
+                            if ($controlador == "emplazamientos"){
+                                $clase = ' active';
+                            }
+                            echo $clase . '">';
+                            echo $this->Html->Link(
+                                __('Emplazamientos') . ' <span class="caret"></span>',
+                                array('controller' => 'emplazamientos', 'action' => 'index'),
+                                array('title' => __('Emplazamientos'), 'class' => "dropdown-toggle", 'data-toggle' => "dropdown", 'role' => "button", 'aria-haspopup' => "true",  'aria-expanded' => "false", 'escape' => false)
+                            );
+                            echo '<ul class="dropdown-menu">';
+                            echo '<li>';
+                            echo $this->Html->Link(__('Listado'),array('controller' => 'emplazamientos', 'action' => 'index'), array('title' => __('Listado')));
+                            echo '</li>';
+                            echo '</ul>';
                             echo '</li>';
                             ?>
                         </ul>

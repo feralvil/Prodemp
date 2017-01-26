@@ -37,15 +37,16 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	?>
 </head>
 <body>
-	<div id="container">
+	<div id="contenidos" class="container-fluid">
 		<div id="header" class="row">
 			<?php echo $this->element('menu'); ?>
 		</div>
-		<div id="content">
-
-			<?php echo $this->Flash->render(); ?>
-
-			<?php echo $this->fetch('content'); ?>
+		<div id="content" class="row">
+			<div class="col-md-12">
+				<?php echo $this->Flash->render(); ?>
+				<?php echo $this->Flash->render('auth'); ?>
+				<?php echo $this->fetch('content'); ?>
+			</div>
 		</div>
 		<div id="footer" class="row">
 			<p class="text-center">

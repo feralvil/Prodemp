@@ -25,8 +25,8 @@ class UsersController extends AppController {
     }
 
     public function login() {
-        $this->render('login', 'inicio');
         $this->set('title_for_layout', __('Iniciar Sesión'));
+        $this->render('login', 'inicio');
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
                 // Comprobamos si Usuario = Contraseña
