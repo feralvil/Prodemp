@@ -9,7 +9,7 @@
  App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 
 class Municipio extends AppModel {
-    public $hasMany = array('Emplazamiento', 'Nucleo');
+    public $hasMany = array('Emplazamiento');
     public $belongsTo = array('Comarca');
 }
 

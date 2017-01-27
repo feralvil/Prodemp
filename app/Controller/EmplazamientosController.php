@@ -163,6 +163,26 @@ class EmplazamientosController extends AppController {
         $this->set('emplazamientos', $emplazamientos);
     }
 
+    public function detalle ($id = null){
+       // Fijamos el título de la vista
+       $this->set('title_for_layout', __('Emplazamiento de Telecomunicaciones'));
+       $this->Emplazamiento->id = $id;
+       if (!$this->Emplazamiento->exists()) {
+           throw new NotFoundException(__('Error: el emplazamiento seleccionado no existe'));
+       }
+       $emplazamiento = $this->Emplazamiento->read(null, $id);
+       // Buscamos el municipio del titular:
+       if (!empty($emplazamiento['Entidad']['municipio_id'])){
+           $this->Emplazamiento->Municipio->id = $emplazamiento['Entidad']['municipio_id'];
+           if (!$this->Emplazamiento->Municipio->exists()) {
+               throw new NotFoundException(__('Error: el municipio de la entidad no existe'));
+           }
+           $emplazamiento['Entidad']['Municipio'] = $this->Emplazamiento->Municipio->read(null, $emplazamiento['Entidad']['municipio_id']);
+       }
+       $this->set('emplazamiento', $emplazamiento);
+
+   }
+
     public function xlsexportar () {
         // Buscamos los emplazamientos
         $emplazamientos = $this->Emplazamiento->find('all', array('order' => 'Emplazamiento.centro'));
