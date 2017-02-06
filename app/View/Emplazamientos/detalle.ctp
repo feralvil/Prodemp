@@ -26,6 +26,11 @@ $this->Js->event('click', $functab);
               <span class="glyphicon glyphicon-record" aria-hidden="true"></span> <?php echo __('Titular');?>
           </a>
       </li>
+      <li role="presentation">
+          <a href="#" id="suministro">
+              <span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <?php echo __('Suministro');?>
+          </a>
+      </li>
     </ul>
     <div id="localiza" class="pestanya">
         <div class="col-md-12">
@@ -117,6 +122,90 @@ $this->Js->event('click', $functab);
                     <td><?php echo $emplazamiento['Entidad']['fax'];?></td>
                 </tr>
             </table>
+        </div>
+    </div>
+    <div id="suministro" class="pestanya row hidden">
+        <div class="col-md-12">
+            <h2><?php echo __('Suministro eléctrico del emplazamiento');?></h2>
+            <?php
+            if (!empty($emplazamiento['Suministro'])){
+            ?>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="page-header"><?php echo __('Titular del suministro');?></h3>
+                        <table class="table table-condensed table-hover table-striped">
+                            <tr>
+                                <th><?php echo __('CIF');?></th>
+                                <td><?php echo $emplazamiento['Suministro']['Titular']['cif'];?></td>
+                                <th><?php echo __('Titular');?></th>
+                                <td><?php echo $emplazamiento['Suministro']['Titular']['nombre'];?></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="page-header"><?php echo __('Proveedor del suministro');?></h3>
+                        <table class="table table-condensed table-hover table-striped">
+                            <tr>
+                                <th><?php echo __('CIF');?></th>
+                                <td><?php echo $emplazamiento['Suministro']['Proveedor']['cif'];?></td>
+                                <th><?php echo __('Proveedor');?></th>
+                                <td><?php echo $emplazamiento['Suministro']['Proveedor']['nombre'];?></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <h3 class="page-header"><?php echo __('Datos del suministro');?></h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-condensed table-hover table-striped">
+                            <tr>
+                                <th><?php echo __('CUPS');?></th>
+                                <td><?php echo $emplazamiento['Suministro']['cups'];?></td>
+                                <th><?php echo __('Nº Póliza / Ref. Contrato');?></th>
+                                <td><?php echo $emplazamiento['Suministro']['nreferencia'];?></td>
+                            </tr>
+                            <tr>
+                                <th><?php echo __('Dirección');?></th>
+                                <td colspan="3"><?php echo $emplazamiento['Suministro']['dirsuministro'];?></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-condensed table-hover table-striped">
+                            <tr>
+                                <th><?php echo __('Tarifa Acceso');?></strong></th>
+                                <td><?php echo $emplazamiento['Suministro']['taracceso'];?> A</td>
+                                <th><?php echo __('Pot. Punta');?></th>
+                                <td><?php echo $emplazamiento['Suministro']['potpunta'];?> kW</td>
+                                <th><?php echo __('Pot. Acceso');?></th>
+                                <td><?php echo $emplazamiento['Suministro']['potacceso'];?> kW</td>
+                            </tr>
+                            <tr>
+                                <th><?php echo __('Pot. Valle');?></div>
+                                <td><?php echo $emplazamiento['Suministro']['potvalle'];?> kW</td>
+                                <th><?php echo __('Pot. Llano');?></div>
+                                <td><?php echo $emplazamiento['Suministro']['potllano'];?> kW</td>
+                                <th><?php echo __('Nº Expediente');?></div>
+                                <td><?php echo $emplazamiento['Suministro']['expediente'];?> kW</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            <?php
+            }
+            else{
+            ?>
+            <div class='panel panel-warning'>
+                <div class="panel-heading">
+                    <h3 class="panel-title"><?php echo  __('No hay resultados'); ?></h3>
+                </div>
+                <div class="panel-body">
+                    <?php echo __('No se han econtrado datos de suministro eléctrico del emplazamiento'); ?>
+                </div>
+            </div>
+            <?php
+            }
+            ?>
         </div>
     </div>
 </div>

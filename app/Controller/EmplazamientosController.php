@@ -179,6 +179,28 @@ class EmplazamientosController extends AppController {
            }
            $emplazamiento['Entidad']['Municipio'] = $this->Emplazamiento->Municipio->read(null, $emplazamiento['Entidad']['municipio_id']);
        }
+       if (!empty($emplazamiento['Suministro'])){
+           $suministro = $emplazamiento['Suministro'][0];
+           $emplazamiento['Suministro'] = $suministro;
+           // Datos del titular:
+           if ($suministro['titular'] > 0){
+               $this->Emplazamiento->Entidad->id = $suministro['titular'];
+               $this->Emplazamiento->Entidad->recursive = -1;
+               if (!$this->Emplazamiento->Entidad->exists()) {
+                   throw new NotFoundException(__('Error: el titular del Suministro no existe'));
+               }
+               $emplazamiento['Suministro']['Titular'] = $this->Emplazamiento->Entidad->read(null, $suministro['titular'])['Entidad'];
+           }
+           // Datos del proveedor:
+           if ($suministro['proveedor'] > 0){
+               $this->Emplazamiento->Entidad->id = $suministro['proveedor'];
+               $this->Emplazamiento->Entidad->recursive = -1;
+               if (!$this->Emplazamiento->Entidad->exists()) {
+                   throw new NotFoundException(__('Error: el proveedor del Suministro no existe'));
+               }
+               $emplazamiento['Suministro']['Proveedor'] = $this->Emplazamiento->Entidad->read(null, $suministro['proveedor'])['Entidad'];
+           }
+       }
        $this->set('emplazamiento', $emplazamiento);
 
    }
