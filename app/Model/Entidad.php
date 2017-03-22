@@ -22,27 +22,22 @@ class Entidad extends AppModel {
             'foreignKey' => 'proveedor'
         )
     );
+    public $belongsTo = array('Enttipo', 'Municipio');
     public $validate = array(
-        'centro' => array(
+        'nombre' => array(
             'required' => array(
                 'rule' => array('notBlank'),
-                'message' => 'El Emplazamiento no puede estar vacío'
+                'message' => 'El nombre de la entidad no puede estar vacío'
             ),
             'unico' => array(
                 'rule' => 'isUnique',
-                'message' => 'Ya existe un Emplazamiento con el mismo nombre'
+                'message' => 'Ya existe una Entidad con el mismo nombre'
             )
         ),
-        'latitud' => array(
+        'enttipo_id' => array(
             'required' => array(
                 'rule' => array('notBlank'),
-                'message' => 'La latitud no puede estar vacía'
-            ),
-        ),
-        'longitud' => array(
-            'required' => array(
-                'rule' => array('notBlank'),
-                'message' => 'La latitud no puede estar vacía'
+                'message' => 'Debe seleccionar un tipo de entidad'
             ),
         ),
     );

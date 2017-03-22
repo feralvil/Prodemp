@@ -125,6 +125,13 @@ echo $this->Form->hidden('irapag', array('value' => '0'));
         <div class="col-md-2">
             <div class="btn-group" role="group" aria-label="...">
                 <?php
+                if ((AuthComponent::user('role') == 'admin') || (AuthComponent::user('role') == 'colab')) {
+                    echo $this->Html->Link(
+                        '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+                        array('controller' => 'emplazamientos', 'action' => 'agregar'),
+                        array('title' => __('Agregar Emplazamiento'), 'class' => 'btn btn-default', 'alt' => __('Agregar Emplazamiento'), 'escape' => false)
+                    );
+                }
                 echo $this->Html->Link(
                     '<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>',
                     array('controller' => 'emplazamientos', 'action' => 'xlsexportar'),
@@ -162,6 +169,14 @@ if ($nemp > 0){
                         array('controller' => 'emplazamientos', 'action' => 'detalle', $emplazamiento['Emplazamiento']['id']),
                         array('title' => __('Detalle de Emplazamiento'), 'alt' => __('Detalle de Emplazamiento'), 'escape' => false)
                     );
+                    if ((AuthComponent::user('role') == 'admin') || (AuthComponent::user('role') == 'colab')) {
+                        echo ' &mdash; ';
+                        echo $this->Html->Link(
+                            '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>',
+                            array('controller' => 'emplazamientos', 'action' => 'editar', $emplazamiento['Emplazamiento']['id']),
+                            array('title' => __('Modificar Emplazamiento'), 'alt' => __('Modificar Emplazamiento'), 'escape' => false)
+                        );
+                    }
                     ?>
                 </td>
                 <td><?php echo $emplazamiento['Emplazamiento']['centro'];?></td>

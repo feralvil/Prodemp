@@ -97,6 +97,14 @@
                  $addcond = array('Suministro.proveedor'  => $this->request->data['Suministro']['proveedor']);
                  $condiciones = array_merge($addcond, $condiciones);
              }
+             // Cambio de página
+             if (!empty($this->request->data['Suministro']['irapag'])&&($this->request->data['Suministro']['irapag'] > 0)){
+                 $this->paginate['page'] = $this->request->data['Suministro']['irapag'];
+             }
+             // Tamaño de página
+             if (!empty($this->request->data['Suministro']['regPag'])&&($this->request->data['Suministro']['regPag'] > 0)){
+                 $this->paginate['limit'] = $this->request->data['Suministro']['regPag'];
+             }
          }
          $this->paginate['conditions'] = $condiciones;
          $suministros = $this->paginate();

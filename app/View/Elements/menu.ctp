@@ -70,6 +70,22 @@ if ($rol != 'admin'){
                             echo $this->Html->Link(__('Listado'),array('controller' => 'suministros', 'action' => 'index'), array('title' => __('Listado')));
                             echo '</li>';
                             echo '</ul>';
+                            echo '<li class="dropdown';
+                            $clase = '';
+                            if ($controlador == "entidads"){
+                                $clase = ' active';
+                            }
+                            echo $clase . '">';
+                            echo $this->Html->Link(
+                                __('Entidades') . ' <span class="caret"></span>',
+                                array('controller' => 'entidads', 'action' => 'index'),
+                                array('title' => __('entidads'), 'class' => "dropdown-toggle", 'data-toggle' => "dropdown", 'role' => "button", 'aria-haspopup' => "true",  'aria-expanded' => "false", 'escape' => false)
+                            );
+                            echo '<ul class="dropdown-menu">';
+                            echo '<li>';
+                            echo $this->Html->Link(__('Listado'),array('controller' => 'entidads', 'action' => 'index'), array('title' => __('Listado')));
+                            echo '</li>';
+                            echo '</ul>';
                             echo '</li>';
                             ?>
                         </ul>

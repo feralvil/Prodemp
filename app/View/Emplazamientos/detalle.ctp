@@ -112,8 +112,10 @@ $this->Js->event('click', $functab);
                         <?php
                             echo $emplazamiento['Entidad']['domicilio'] . ' &mdash; ';
                             echo $emplazamiento['Entidad']['codpostal'] . ' ';
-                            echo $emplazamiento['Entidad']['Municipio']['Municipio']['nombre'] . ' (';
-                            echo $emplazamiento['Entidad']['Municipio']['Municipio']['provincia'] . ')';
+                            if (isset($emplazamiento['Entidad']['Municipio'])){
+                                echo $emplazamiento['Entidad']['Municipio']['Municipio']['nombre'] . ' (';
+                                echo $emplazamiento['Entidad']['Municipio']['Municipio']['provincia'] . ')';
+                            }
                         ?>
                     </td>
                     <th><?php echo __('Teléfono');?></th>
@@ -136,9 +138,9 @@ $this->Js->event('click', $functab);
                         <table class="table table-condensed table-hover table-striped">
                             <tr>
                                 <th><?php echo __('CIF');?></th>
-                                <td><?php echo $emplazamiento['Suministro']['Titular']['cif'];?></td>
+                                <td><?php echo $emplazamiento['Suministro']['Titular']['Entidad']['cif'];?></td>
                                 <th><?php echo __('Titular');?></th>
-                                <td><?php echo $emplazamiento['Suministro']['Titular']['nombre'];?></td>
+                                <td><?php echo $emplazamiento['Suministro']['Titular']['Entidad']['nombre'];?></td>
                             </tr>
                         </table>
                     </div>
@@ -147,9 +149,9 @@ $this->Js->event('click', $functab);
                         <table class="table table-condensed table-hover table-striped">
                             <tr>
                                 <th><?php echo __('CIF');?></th>
-                                <td><?php echo $emplazamiento['Suministro']['Proveedor']['cif'];?></td>
+                                <td><?php echo $emplazamiento['Suministro']['Proveedor']['Entidad']['cif'];?></td>
                                 <th><?php echo __('Proveedor');?></th>
-                                <td><?php echo $emplazamiento['Suministro']['Proveedor']['nombre'];?></td>
+                                <td><?php echo $emplazamiento['Suministro']['Proveedor']['Entidad']['nombre'];?></td>
                             </tr>
                         </table>
                     </div>
