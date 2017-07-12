@@ -32,7 +32,8 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
     public $components = array(
-        'DebugKit.Toolbar', 'Flash',
+        'DebugKit.Toolbar',
+        'Flash',
         'Auth' => array(
             'authenticate' => array(
                 'Form' => array('passwordHasher' => 'Blowfish')

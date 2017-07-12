@@ -10,7 +10,7 @@ App::uses('AppModel', 'Model');
 App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 
 class Servicio extends AppModel {
-    //public $hasMany = array('Emision');
+    public $hasMany = array('Cobertura');
     public $belongsTo = array('Emplazamiento','Servtipo');
     public $validate = array(
         'descripcion' => array(

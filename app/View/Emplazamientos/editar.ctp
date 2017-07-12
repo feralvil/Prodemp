@@ -25,19 +25,25 @@ echo $this->Form->create('Emplazamiento', array(
 </fieldset>
 <fieldset>
     <legend><?php echo  __('Ubicación del Emplazamiento'); ?></legend>
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-4">
         <?php
         echo $this->Form->label('Emplazamiento.municipio_id', __('Municipio'));
         echo $this->Form->input('Emplazamiento.municipio_id', array('options' => $municipios, 'div' => 'has-error', 'class' => 'form-control'));
         ?>
     </div>
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-4">
+        <?php
+        echo $this->Form->label('Emplazamiento.ubicacion', __('Ubicación'));
+        echo $this->Form->input('Emplazamiento.ubicacion', array('class' => 'form-control'));
+        ?>
+    </div>
+    <div class="form-group col-sm-2">
         <?php
         echo $this->Form->label('Emplazamiento.latitud', __('Latitud'));
         echo $this->Form->input('Emplazamiento.latitud', array('div' => 'has-error', 'class' => 'form-control'));
         ?>
     </div>
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-2">
         <?php
         echo $this->Form->label('Emplazamiento.longitud', __('Longitud'));
         echo $this->Form->input('Emplazamiento.longitud', array('div' => 'has-error', 'class' => 'form-control'));

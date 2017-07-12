@@ -214,19 +214,11 @@
              $titulares = $this->Entidad->find('list', $opciones);
              $this->set('titulares', $titulares);
              $opciones = array(
-                 'fields' => array('Suministro.proveedor'),
-                 'order' => 'Suministro.proveedor',
-                 'group' => 'Suministro.proveedor'
+                 'fields' => array('Entidad.id', 'Entidad.nombre'),
+                 'order' => 'Entidad.nombre',
+                 'conditions' => array('Entidad.enttipo_id' => 6),
              );
-             $provbbdd = $this->Suministro->find('list', $opciones);
-             $proveedores = array();
-             foreach ($provbbdd as $idprov) {
-                 if ($idprov > 0){
-                     $opciones = array('fields' => array('Entidad.nombre'));
-                     $entidad = $this->Entidad->read(null, $idprov);
-                     $proveedores[$idprov] = $entidad['Entidad']['nombre'];
-                 }
-             }
+             $proveedores = $this->Entidad->find('list', $opciones);
              $this->set('proveedores', $proveedores);
              $this->request->data = $this->Suministro->read(null, $id);
          }

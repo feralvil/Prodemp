@@ -40,11 +40,13 @@ $this->Js->event('click', $functab);
                     <th><?php echo __('Provincia');?></th>
                     <th><?php echo __('Comarca');?></th>
                     <th><?php echo __('Municipio');?></th>
+                    <th><?php echo __('Ubicación');?></th>
                 </tr>
                 <tr>
                     <td><?php echo $emplazamiento['Municipio']['provincia'];?></td>
                     <td><?php echo $emplazamiento['Comarca']['comarca'];?></td>
                     <td><?php echo $emplazamiento['Municipio']['nombre'];?></td>
+                    <td><?php echo $emplazamiento['Emplazamiento']['ubicacion'];?></td>
                 </tr>
             </table>
             <h2><?php echo __('Coordenadas');?></h2>
@@ -58,6 +60,22 @@ $this->Js->event('click', $functab);
                     <td><?php echo $emplazamiento['Emplazamiento']['longitud'];?></td>
                 </tr>
             </table>
+        </div>
+        <div class="form-group text-center">
+            <div class="btn-group" role="group" aria-label="...">
+                <?php
+                echo $this->Html->Link(
+                    '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>' . ' ' . __('Editar Emplazamiento'),
+                    array('controller' => 'emplazamientos', 'action' => 'editar', $emplazamiento['Emplazamiento']['id']),
+                    array('class' => 'btn btn-default', 'title' => __('Editar Emplazamiento'), 'alt' => __('Editar Emplazamiento'), 'escape' => false)
+                );
+                echo $this->Html->Link(
+                    '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>' . ' ' . __('Volver'),
+                    array('controller' => 'emplazamientos', 'action' => 'index'),
+                    array('class' => 'btn btn-default', 'title' => __('Volver'), 'alt' => __('Volver'), 'escape' => false)
+                );
+                ?>
+            </div>
         </div>
     </div>
     <div id="servicios" class="pestanya row hidden">

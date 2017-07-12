@@ -409,6 +409,7 @@ class EmplazamientosController extends AppController {
                     'provincia' => substr($this->request->data['Emplazamiento']['municipio_id'], 0, 2),
                     'comarca_id' => $municipio['Municipio']['comarca_id'],
                     'entidad_id' => $entidad_id,
+                    'ubicacion' => $this->request->data['Emplazamiento']['ubicacion'],
                     'latitud' => $this->request->data['Emplazamiento']['latitud'],
                     'longitud' => $this->request->data['Emplazamiento']['longitud'],
                 ),
