@@ -175,9 +175,17 @@ class EmplazamientosController extends AppController {
        if (!empty($emplazamiento['Entidad']['municipio_id'])){
            $this->Emplazamiento->Municipio->id = $emplazamiento['Entidad']['municipio_id'];
            if (!$this->Emplazamiento->Municipio->exists()) {
-               throw new NotFoundException(__('Error: el municipio de la entidad no existe'));
+               $emplazamiento['Entidad']['Municipio'] = array(
+                   'Municipio' => array(
+                       'id' =>  $emplazamiento['Entidad']['municipio_id'],
+                       'provincia' =>  $emplazamiento['Entidad']['provincia'],
+                       'nombre' =>  $emplazamiento['Entidad']['municipio'],
+                   ),
+               );
            }
-           $emplazamiento['Entidad']['Municipio'] = $this->Emplazamiento->Municipio->read(null, $emplazamiento['Entidad']['municipio_id']);
+           else{
+               $emplazamiento['Entidad']['Municipio'] = $this->Emplazamiento->Municipio->read(null, $emplazamiento['Entidad']['municipio_id']);
+           }
        }
        if (!empty($emplazamiento['Suministro'])){
            $suministro = $emplazamiento['Suministro'][0];
