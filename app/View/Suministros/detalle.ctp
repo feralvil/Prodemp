@@ -86,6 +86,17 @@
             </tr>
         </table>
     </div>
+     <div class="col-md-12">
+        <h2><?php echo __('Observaciones');?></h2>
+        <?php
+        if ($suministro['Suministro']['notas'] != ""){
+            echo $suministro['Suministro']['notas'];
+        }
+        else{
+            echo '&mdash;';
+        }
+        ?>
+    </div>
 </div>
 <div class="row">
     <div class="form-group text-center">

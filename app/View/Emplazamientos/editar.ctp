@@ -50,6 +50,12 @@ echo $this->Form->create('Emplazamiento', array(
         ?>
     </div>
 </fieldset>
+<fieldset>
+    <legend><?php echo  __('Observaciones'); ?></legend>
+    <div class="form-group col-sm-8">
+        <?php echo $this->Form->textarea('Emplazamiento.notas', array('class' => 'form-control')); ?>
+    </div>
+</fieldset>
 <div class="form-group text-center">
     <div class="btn-group" role="group" aria-label="...">
         <?php

@@ -302,6 +302,7 @@ class EmplazamientosController extends AppController {
                     'comdes' => $this->request->data['Emplazamiento']['comdes'],
                     'tdt-gva' => $this->request->data['Emplazamiento']['tdt-gva'],
                     'rtvv' => $this->request->data['Emplazamiento']['rtvv'],
+                    'notas' => $this->request->data['Emplazamiento']['notas'],
                 ),
             );
             $servicios = array();
@@ -420,6 +421,7 @@ class EmplazamientosController extends AppController {
                     'ubicacion' => $this->request->data['Emplazamiento']['ubicacion'],
                     'latitud' => $this->request->data['Emplazamiento']['latitud'],
                     'longitud' => $this->request->data['Emplazamiento']['longitud'],
+                    'notas' => $this->request->data['Emplazamiento']['notas'],
                 ),
             );
             if ($this->Emplazamiento->save($datos)){

@@ -41,6 +41,12 @@ echo $this->Form->create('Emplazamiento', array(
     </div>
 </fieldset>
 <fieldset>
+    <legend><?php echo  __('Observaciones'); ?></legend>
+    <div class="form-group col-sm-8">
+        <?php echo $this->Form->textarea('Emplazamiento.notas', array('class' => 'form-control')); ?>
+    </div>
+</fieldset>
+<fieldset>
     <legend><?php echo  __('Servicios del Emplazamiento'); ?></legend>
     <div class="form-group col-sm-4">
         <?php

@@ -61,6 +61,12 @@ echo $this->Form->create('Suministro', array(
         echo $this->Form->input('Suministro.expediente', array('div' => 'col-sm-2', 'class' => 'form-control'));
         ?>
     </div>
+    <div class="form-group">
+        <?php
+        echo $this->Form->label('Suministro.notas', __('Observaciones'), array('class' => 'col-sm-2 control-label'));
+        echo $this->Form->input('Suministro.notas', array('div' => 'col-sm-8', 'class' => 'form-control', 'rows' => 2));
+        ?>
+    </div>
     <div class="form-group text-center">
         <div class="btn-group" role="group" aria-label="...">
             <?php

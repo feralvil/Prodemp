@@ -31,6 +31,11 @@ $this->Js->event('click', $functab);
               <span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <?php echo __('Suministro');?>
           </a>
       </li>
+      <li role="presentation">
+          <a href="#" id="info">
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <?php echo __('Notas');?>
+          </a>
+      </li>
     </ul>
     <div id="localiza" class="pestanya">
         <div class="col-md-12">
@@ -226,6 +231,31 @@ $this->Js->event('click', $functab);
             <?php
             }
             ?>
+        </div>
+    </div>
+    <div id="info" class="pestanya row hidden">
+        <div class="col-md-12">
+            <h2><?php echo __('Observaciones');?></h2>
+            <p>
+                <?php
+                if ($emplazamiento['Emplazamiento']['notas'] != ""){
+                    echo $emplazamiento['Emplazamiento']['notas'];
+                }
+                else{
+                ?>
+                    <div class='panel panel-warning'>
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?php echo  __('No hay Observaciones'); ?></h3>
+                        </div>
+                        <div class="panel-body">
+                            <?php echo __('No se han encontrado observaciones para este emplazamiento'); ?>
+                        </div>
+                    </div>
+                <?php
+                }
+                ?>
+                
+            </p>
         </div>
     </div>
 </div>

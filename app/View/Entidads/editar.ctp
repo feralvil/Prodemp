@@ -54,6 +54,12 @@ echo $this->Form->create('Entidad', array(
         echo $this->Form->input('Entidad.provincia', array('div' => 'col-sm-2', 'class' => 'form-control'));
         ?>
     </div>
+    <legend><?php echo __('Observaciones');?></legend>
+    <div class="form-group">
+        <?php
+        echo $this->Form->input('Entidad.comentarios', array('div' => 'col-sm-8', 'class' => 'form-control', 'rows' => 2));
+        ?>
+    </div>
     <div class="form-group text-center">
         <div class="btn-group" role="group" aria-label="...">
             <?php

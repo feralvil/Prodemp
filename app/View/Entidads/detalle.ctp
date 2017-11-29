@@ -71,6 +71,32 @@ $this->Js->event('click', $functab);
                     <td><?php echo $entidad['Entidad']['fax'];?></td>
                 </tr>
             </table>
+            <div class="col-md-8">
+                <h4><?php echo __('Observaciones');?></h4>
+                <p>
+                    <?php
+                    if ($entidad['Entidad']['comentarios'] != ""){
+                        echo $entidad['Entidad']['comentarios'];
+                    }
+                    else{
+                        echo '&mdash;';
+                    }
+                    ?>
+                </p>
+            </div>            
+            <?php
+            if ($entidad['Entidad']['enttipo_id'] == 6){
+            ?>
+                <div class="col-md-4">
+                    <h4><?php echo __('Teléfono de averías');?></h4>
+                    <p>
+                        <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> &mdash; <?php echo $entidad['Entidad']['telaverias'];?>
+                    </p>
+                </div>
+            <?php
+            }
+            ?>
+
         </div>
         <div class="row">
             <div class="form-group text-center">
