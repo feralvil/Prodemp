@@ -30,14 +30,29 @@ echo $this->Form->create('Entidad', array(
     <legend><?php echo __('Ubicación de la Entidad');?></legend>
     <div class="form-group">
         <?php
-        echo $this->Form->label('Entidad.domicilio', __('Domicilio'), array('class' => 'col-sm-1 control-label'));
-        echo $this->Form->input('Entidad.domicilio', array('div' => 'col-sm-3', 'class' => 'form-control'));
-        echo $this->Form->label('Entidad.codpostal', __('C.P.'), array('class' => 'col-sm-1 control-label'));
-        echo $this->Form->input('Entidad.codpostal', array('div' => 'col-sm-1', 'class' => 'form-control'));
-        echo $this->Form->label('Entidad.telefono', __('Teléfono'), array('class' => 'col-sm-1 control-label'));
-        echo $this->Form->input('Entidad.telefono', array('div' => 'col-sm-2', 'class' => 'form-control'));
-        echo $this->Form->label('Entidad.fax', __('Fax'), array('class' => 'col-sm-1 control-label'));
-        echo $this->Form->input('Entidad.fax', array('div' => 'col-sm-2', 'class' => 'form-control'));
+        
+        if ($this->data['Entidad']['enttipo_id'] == 6){
+            echo $this->Form->label('Entidad.domicilio', __('Domicilio'), array('class' => 'col-sm-1 control-label'));
+            echo $this->Form->input('Entidad.domicilio', array('div' => 'col-sm-2', 'class' => 'form-control'));
+            echo $this->Form->label('Entidad.codpostal', __('C.P.'), array('class' => 'col-sm-1 control-label'));
+            echo $this->Form->input('Entidad.codpostal', array('div' => 'col-sm-1', 'class' => 'form-control'));
+            echo $this->Form->label('Entidad.telefono', __('Teléfono'), array('class' => 'col-sm-1 control-label'));
+            echo $this->Form->input('Entidad.telefono', array('div' => 'col-sm-1', 'class' => 'form-control'));
+            echo $this->Form->label('Entidad.fax', __('Fax'), array('class' => 'col-sm-1 control-label'));
+            echo $this->Form->input('Entidad.fax', array('div' => 'col-sm-1', 'class' => 'form-control'));    
+            echo $this->Form->label('Entidad.telaverias', __('Teléfono de averías'), array('class' => 'col-sm-2 control-label'));
+            echo $this->Form->input('Entidad.telaverias', array('div' => 'col-sm-1', 'class' => 'form-control'));
+        }
+        else{
+            echo $this->Form->label('Entidad.domicilio', __('Domicilio'), array('class' => 'col-sm-1 control-label'));
+            echo $this->Form->input('Entidad.domicilio', array('div' => 'col-sm-3', 'class' => 'form-control'));
+            echo $this->Form->label('Entidad.codpostal', __('C.P.'), array('class' => 'col-sm-1 control-label'));
+            echo $this->Form->input('Entidad.codpostal', array('div' => 'col-sm-1', 'class' => 'form-control'));
+            echo $this->Form->label('Entidad.telefono', __('Teléfono'), array('class' => 'col-sm-1 control-label'));
+            echo $this->Form->input('Entidad.telefono', array('div' => 'col-sm-2', 'class' => 'form-control'));
+            echo $this->Form->label('Entidad.fax', __('Fax'), array('class' => 'col-sm-1 control-label'));
+            echo $this->Form->input('Entidad.fax', array('div' => 'col-sm-2', 'class' => 'form-control'));    
+        }
         ?>
     </div>
     <div class="form-group">
