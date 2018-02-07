@@ -146,6 +146,7 @@
          }
          else{
              $this->set('title_for_layout', __('Nuevo Suministro de Emplazamiento de Telecomunicaciones'));
+             $this->set('idemp', $idemp);
              // Select de Emplazamientos:
              $opciones = array(
                  'fields' => array('Emplazamiento.id', 'Emplazamiento.centro'),

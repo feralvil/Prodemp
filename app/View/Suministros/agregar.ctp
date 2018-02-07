@@ -10,7 +10,7 @@ echo $this->Form->create('Suministro', array(
     <div class="form-group">
         <?php
         echo $this->Form->label('Suministro.emplazamiento_id', __('Emplazamiento'), array('class' => 'col-sm-2 control-label'));
-        echo $this->Form->input('Suministro.emplazamiento_id', array('options' => $emplazamientos, 'empty' => __('Seleccionar'), 'div' => 'col-sm-4 has-error', 'class' => 'form-control'));
+        echo $this->Form->input('Suministro.emplazamiento_id', array('options' => $emplazamientos, 'empty' => __('Seleccionar'), 'default' => $idemp, 'div' => 'col-sm-4 has-error', 'class' => 'form-control'));
         ?>
     </div>
 </fieldset>
