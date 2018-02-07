@@ -7,8 +7,27 @@ $functab .= "var divshow = $(this).attr('id');";
 $functab .= "$('div#' + $(this).attr('id')).removeClass('hidden');";
 $this->Js->get("div#principal ul li a");
 $this->Js->event('click', $functab);
+$this->Js->get("select");
+$this->Js->event('change', '$("#EmplazamientoDetalleForm").submit()');
 ?>
 <h1><?php echo __('Emplazamiento') . ' ' . $emplazamiento['Emplazamiento']['centro']; ?></h1>
+<?php
+echo $this->Form->create('Emplazamiento', array(
+    'inputDefaults' => array('label' => false,'div' => false),
+    'class' => 'form-horizontal'
+));
+?>
+<fieldset>
+    <div class="form-group">
+        <?php
+        echo $this->Form->label('Emplazamiento.emplazamiento', __('Seleccionar Emplazamiento'), array('class' => 'col-sm-3 control-label'));
+        echo $this->Form->input('Emplazamiento.emplazamiento', array('options' => $emplazamientos, 'default' => $emplazamiento['Emplazamiento']['id'], 'div' => 'col-sm-5', 'class' => 'form-control'));
+        ?>
+    </div>
+</fieldset>
+<?php
+echo $this->Form->end();
+?>
 <div id="principal">
     <ul class="nav nav-tabs">
       <li role="presentation" class="active">
@@ -215,19 +234,41 @@ $this->Js->event('click', $functab);
                             </tr>
                         </table>
                     </div>
+                    <div class="col-md-12">
+                        <h4><?php echo __('Observaciones');?></h4>
+                        <?php
+                            if ($emplazamiento['Suministro']['notas'] != ""){
+                                echo $emplazamiento['Suministro']['notas'];
+                            }
+                            else{
+                                echo '&mdash;';
+                            }
+                        ?>
+                    </div>
                 </div>
             <?php
             }
             else{
             ?>
-            <div class='panel panel-warning'>
-                <div class="panel-heading">
-                    <h3 class="panel-title"><?php echo  __('No hay resultados'); ?></h3>
+                <div class='panel panel-warning'>
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><?php echo  __('No hay resultados'); ?></h3>
+                    </div>
+                    <div class="panel-body">
+                        <?php echo __('No se han econtrado datos de suministro eléctrico del emplazamiento'); ?>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <?php echo __('No se han econtrado datos de suministro eléctrico del emplazamiento'); ?>
+                <div class="form-group text-center">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <?php
+                        echo $this->Html->Link(
+                            '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>' . ' ' . __('Agregar Suministro'),
+                            array('controller' => 'suministros', 'action' => 'agregar', $emplazamiento['Emplazamiento']['id']),
+                            array('class' => 'btn btn-default', 'title' => __('Agregar Suministro'), 'alt' => __('Agregar Suministro'), 'escape' => false)
+                        );
+                        ?>
+                    </div>
                 </div>
-            </div>
             <?php
             }
             ?>

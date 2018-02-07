@@ -164,53 +164,64 @@ class EmplazamientosController extends AppController {
     }
 
     public function detalle ($id = null){
-       // Fijamos el título de la vista
-       $this->set('title_for_layout', __('Emplazamiento de Telecomunicaciones'));
-       $this->Emplazamiento->id = $id;
-       if (!$this->Emplazamiento->exists()) {
-           throw new NotFoundException(__('Error: el emplazamiento seleccionado no existe'));
-       }
-       $emplazamiento = $this->Emplazamiento->read(null, $id);
-       // Buscamos el municipio del titular:
-       if (!empty($emplazamiento['Entidad']['municipio_id'])){
-           $this->Emplazamiento->Municipio->id = $emplazamiento['Entidad']['municipio_id'];
-           if (!$this->Emplazamiento->Municipio->exists()) {
-               $emplazamiento['Entidad']['Municipio'] = array(
-                   'Municipio' => array(
-                       'id' =>  $emplazamiento['Entidad']['municipio_id'],
-                       'provincia' =>  $emplazamiento['Entidad']['provincia'],
-                       'nombre' =>  $emplazamiento['Entidad']['municipio'],
-                   ),
-               );
+        // Fijamos el título de la vista
+        $this->set('title_for_layout', __('Emplazamiento de Telecomunicaciones'));
+        // Si se ha elegido un emplazamiento del select:
+        if ($this->request->is('post')){
+            $idemp = $this->request->data['Emplazamiento']['emplazamiento'];
+            $this->redirect(array('controller' => 'emplazamientos', 'action' => 'detalle', $idemp));
+        }
+        // Select de Emplazamientos:
+        $opciones = array(
+            'fields' => array('Emplazamiento.id', 'Emplazamiento.centro'),
+            'order' => 'Emplazamiento.centro',
+        );
+        $emplazamientos = $this->Emplazamiento->find('list', $opciones);
+        $this->set('emplazamientos', $emplazamientos);
+        $this->Emplazamiento->id = $id;
+           if (!$this->Emplazamiento->exists()) {
+               throw new NotFoundException(__('Error: el emplazamiento seleccionado no existe'));
            }
-           else{
-               $emplazamiento['Entidad']['Municipio'] = $this->Emplazamiento->Municipio->read(null, $emplazamiento['Entidad']['municipio_id']);
-           }
-       }
-       if (!empty($emplazamiento['Suministro'])){
-           $suministro = $emplazamiento['Suministro'][0];
-           $emplazamiento['Suministro'] = $suministro;
-           // Datos del titular:
-           if ($suministro['titular'] > 0){
-               $this->Emplazamiento->Entidad->id = $suministro['titular'];
-               $this->Emplazamiento->Entidad->recursive = -1;
-               if (!$this->Emplazamiento->Entidad->exists()) {
-                   throw new NotFoundException(__('Error: el titular del Suministro no existe'));
+           $emplazamiento = $this->Emplazamiento->read(null, $id);
+           // Buscamos el municipio del titular:
+           if (!empty($emplazamiento['Entidad']['municipio_id'])){
+               $this->Emplazamiento->Municipio->id = $emplazamiento['Entidad']['municipio_id'];
+               if (!$this->Emplazamiento->Municipio->exists()) {
+                   $emplazamiento['Entidad']['Municipio'] = array(
+                       'Municipio' => array(
+                           'id' =>  $emplazamiento['Entidad']['municipio_id'],
+                           'provincia' =>  $emplazamiento['Entidad']['provincia'],
+                           'nombre' =>  $emplazamiento['Entidad']['municipio'],
+                       ),
+                   );
                }
-               $emplazamiento['Suministro']['Titular'] = $this->Emplazamiento->Entidad->read(null, $suministro['titular']);
-           }
-           // Datos del proveedor:
-           if ($suministro['proveedor'] > 0){
-               $this->Emplazamiento->Entidad->id = $suministro['proveedor'];
-               $this->Emplazamiento->Entidad->recursive = -1;
-               if (!$this->Emplazamiento->Entidad->exists()) {
-                   throw new NotFoundException(__('Error: el proveedor del Suministro no existe'));
+               else{
+                   $emplazamiento['Entidad']['Municipio'] = $this->Emplazamiento->Municipio->read(null, $emplazamiento['Entidad']['municipio_id']);
                }
-               $emplazamiento['Suministro']['Proveedor'] = $this->Emplazamiento->Entidad->read(null, $suministro['proveedor']);
            }
-       }
-       $this->set('emplazamiento', $emplazamiento);
-
+           if (!empty($emplazamiento['Suministro'])){
+               $suministro = $emplazamiento['Suministro'][0];
+               $emplazamiento['Suministro'] = $suministro;
+               // Datos del titular:
+               if ($suministro['titular'] > 0){
+                   $this->Emplazamiento->Entidad->id = $suministro['titular'];
+                   $this->Emplazamiento->Entidad->recursive = -1;
+                   if (!$this->Emplazamiento->Entidad->exists()) {
+                       throw new NotFoundException(__('Error: el titular del Suministro no existe'));
+                   }
+                   $emplazamiento['Suministro']['Titular'] = $this->Emplazamiento->Entidad->read(null, $suministro['titular']);
+               }
+               // Datos del proveedor:
+               if ($suministro['proveedor'] > 0){
+                   $this->Emplazamiento->Entidad->id = $suministro['proveedor'];
+                   $this->Emplazamiento->Entidad->recursive = -1;
+                   if (!$this->Emplazamiento->Entidad->exists()) {
+                       throw new NotFoundException(__('Error: el proveedor del Suministro no existe'));
+                   }
+                   $emplazamiento['Suministro']['Proveedor'] = $this->Emplazamiento->Entidad->read(null, $suministro['proveedor']);
+               }
+           }
+           $this->set('emplazamiento', $emplazamiento);
    }
 
     public function xlsexportar () {

@@ -130,9 +130,9 @@ if ($nsum > 0){
         <tr>
             <th><?php echo __('Acciones');?></th>
             <th><?php echo __('Emplazamiento');?></th>
+            <th><?php echo __('CIF Titular');?></th>
             <th><?php echo __('Titular Suminstro');?></th>
             <th><?php echo __('CUPS');?></th>
-            <th><?php echo __('Nº Póliza');?></th>
             <th><?php echo __('Dirección de Suminstro');?></th>
             <th><?php echo __('Proveedor');?></th>
         </tr>
@@ -158,9 +158,9 @@ if ($nsum > 0){
                     ?>
                 </td>
                 <td><?php echo $suministro['Emplazamiento']['centro'];?></td>
+                <td><?php echo $suministro['TitSuministro']['cif'];?></td>
                 <td><?php echo $suministro['TitSuministro']['nombre'];?></td>
                 <td><?php echo $suministro['Suministro']['cups'];?></td>
-                <td><?php echo $suministro['Suministro']['nreferencia'];?></td>
                 <td><?php echo $suministro['Suministro']['dirsuministro'];?></td>
                 <td><?php echo $suministro['ProvSuministro']['nombre'];?></td>
             </tr>

@@ -36,7 +36,17 @@
                 <th><?php echo __('CIF');?></th>
                 <td><?php echo $suministro['TitSuministro']['cif'];?></td>
                 <th><?php echo __('Titular');?></th>
-                <td><?php echo $suministro['TitSuministro']['nombre'];?></td>
+                <td>
+                    <?php echo $suministro['TitSuministro']['nombre'];?>
+                    &mdash;
+                    <?php
+                    echo $this->Html->Link(
+                        '<span class="glyphicon glyphicon-share" aria-hidden="true"></span>',
+                        array('controller' => 'entidads', 'action' => 'detalle', $suministro['TitSuministro']['id']),
+                        array('title' => __('Ir a entidad'), 'alt' => __('Ir a entidad'), 'escape' => false)
+                    );
+                    ?>
+                </td>
             </tr>
         </table>
     </div>
@@ -47,7 +57,17 @@
                 <th><?php echo __('CIF');?></th>
                 <td><?php echo $suministro['ProvSuministro']['cif'];?></td>
                 <th><?php echo __('Proveedor');?></th>
-                <td><?php echo $suministro['ProvSuministro']['nombre'];?></td>
+                <td>
+                    <?php echo $suministro['ProvSuministro']['nombre'];?>
+                    &mdash;
+                    <?php
+                    echo $this->Html->Link(
+                        '<span class="glyphicon glyphicon-share" aria-hidden="true"></span>',
+                        array('controller' => 'entidads', 'action' => 'detalle', $suministro['ProvSuministro']['id']),
+                        array('title' => __('Ir a entidad'), 'alt' => __('Ir a entidad'), 'escape' => false)
+                    );
+                    ?>
+                </td>
             </tr>
         </table>
     </div>
