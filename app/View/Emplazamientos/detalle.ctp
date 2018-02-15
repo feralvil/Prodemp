@@ -57,33 +57,40 @@ echo $this->Form->end();
       </li>
     </ul>
     <div id="localiza" class="pestanya">
-        <div class="col-md-12">
-            <h2><?php echo __('Datos de Localización');?></h2>
-            <table class="table table-condensed table-hover table-striped">
-                <tr>
-                    <th><?php echo __('Provincia');?></th>
-                    <th><?php echo __('Comarca');?></th>
-                    <th><?php echo __('Municipio');?></th>
-                    <th><?php echo __('Ubicación');?></th>
-                </tr>
-                <tr>
-                    <td><?php echo $emplazamiento['Municipio']['provincia'];?></td>
-                    <td><?php echo $emplazamiento['Comarca']['comarca'];?></td>
-                    <td><?php echo $emplazamiento['Municipio']['nombre'];?></td>
-                    <td><?php echo $emplazamiento['Emplazamiento']['ubicacion'];?></td>
-                </tr>
-            </table>
-            <h2><?php echo __('Coordenadas');?></h2>
-            <table class="table table-condensed table-hover table-striped">
-                <tr>
-                    <th><?php echo __('Latitud');?></th>
-                    <th><?php echo __('Longitud');?></th>
-                </tr>
-                <tr>
-                    <td><?php echo $emplazamiento['Emplazamiento']['latitud'];?></td>
-                    <td><?php echo $emplazamiento['Emplazamiento']['longitud'];?></td>
-                </tr>
-            </table>
+        <div class="row">
+            <div class="col-md-6">
+                <h2><?php echo __('Mapa');?></h2>
+                <div id="map">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2><?php echo __('Datos de Localización');?></h2>
+                <table class="table table-condensed table-hover table-striped">
+                    <tr>
+                        <th><?php echo __('Provincia');?></th>
+                        <th><?php echo __('Comarca');?></th>
+                        <th><?php echo __('Municipio');?></th>
+                    </tr>
+                    <tr>
+                        <td><?php echo $emplazamiento['Municipio']['provincia'];?></td>
+                        <td><?php echo $emplazamiento['Comarca']['comarca'];?></td>
+                        <td><?php echo $emplazamiento['Municipio']['nombre'];?></td>
+                    </tr>
+                </table>
+                <h2><?php echo __('Coordenadas');?></h2>
+                <table class="table table-condensed table-hover table-striped">
+                    <tr>
+                        <th><?php echo __('Latitud');?></th>
+                        <th><?php echo __('Longitud');?></th>
+                    </tr>
+                    <tr>
+                        <td><?php echo $emplazamiento['Emplazamiento']['latitud'];?></td>
+                        <td><?php echo $emplazamiento['Emplazamiento']['longitud'];?></td>
+                    </tr>
+                </table>
+                <h2><?php echo __('Ubicación');?></h2>
+                <p><?php echo $emplazamiento['Emplazamiento']['ubicacion'];?></p>
+            </div>
         </div>
         <div class="form-group text-center">
             <div class="btn-group" role="group" aria-label="...">
@@ -300,3 +307,72 @@ echo $this->Form->end();
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    var mapa = L.map('map',{
+        maxBounds: [[37.7, -1.7], [40.9, 0.65]],
+    });
+    mapa.setView(
+        [<?php echo $emplazamiento['Emplazamiento']['latitud']; ?>,
+        <?php echo $emplazamiento['Emplazamiento']['longitud']; ?>],
+        10
+    );
+
+    var wms2 = L.tileLayer.wms('http://www.ign.es/wms-inspire/pnoa-ma', {
+        layers: 'OI.OrthoimageCoverage',
+        format: 'image/jpeg',
+        transparent: true,
+        attribution: '(c) Instituto Geográfico Nacional',
+    });
+    wms2.addTo(mapa);
+
+    var wms1 = L.tileLayer.wms('http://www.ign.es/wms-inspire/ign-base', {
+        layers: 'IGNBaseTodo',
+        format: 'image/jpeg',
+        transparent: true,
+        attribution: '(c) Instituto Geográfico Nacional',
+    });
+    wms1.addTo(mapa);
+
+    var baseMaps = {
+        "Ortofoto IGN": wms2,
+        "Mapa Cartográfico Base": wms1
+    };
+    L.control.layers(baseMaps).addTo(mapa);
+    L.control.scale().addTo(mapa);
+
+    // Marcador del emplazamiento:
+    // Tipo de marcadores
+    var Iconos = L.Icon.extend({
+        options: {
+            shadowUrl: '../../img/marker-shadow.png',
+            iconSize:     [25, 40], // Tamaño del Icono
+            iconAnchor:   [12, 40], // Punto de anclaje del icono
+            tooltipAnchor:  [5, -10],
+            popupAnchor:  [5, -10]
+        }
+    });
+    var iconoAzul = new Iconos({iconUrl: '../../img/marca-azul.png'});
+    var marcador = L.marker(
+        [<?php echo $emplazamiento['Emplazamiento']['latitud']; ?>,
+        <?php echo $emplazamiento['Emplazamiento']['longitud']; ?>],
+        {icon: iconoAzul}
+    ).addTo(mapa);
+    marcador.bindTooltip("<b><?php echo $emplazamiento['Emplazamiento']['centro']; ?></b>");
+
+    // Agregamos el botón de centrar
+    var centrar = L.control({position: 'topleft'});
+    centrar.onAdd = function (mapa) {
+        var div = L.DomUtil.create('div', 'info legend');        
+        div.innerHTML = "<a href='#' class='btn btn-default btn-xs' role='button' id='centrar' title='Centrar Mapa'><span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span></a>";
+        return div;
+    };
+    centrar.addTo(mapa);
+    // Botón centrar:
+    $('a#centrar').click(function(){
+        mapa.setView(
+            [<?php echo $emplazamiento['Emplazamiento']['latitud']; ?>,
+            <?php echo $emplazamiento['Emplazamiento']['longitud']; ?>],
+            10
+        );
+    });
+</script>

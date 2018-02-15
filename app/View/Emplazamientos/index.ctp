@@ -137,6 +137,11 @@ echo $this->Form->hidden('irapag', array('value' => '0'));
                     array('controller' => 'emplazamientos', 'action' => 'xlsexportar'),
                     array('title' => __('Exportar a Excel'), 'class' => 'btn btn-default', 'alt' => __('Exportar a Excel'), 'target' => '_blank', 'escape' => false)
                 );
+                echo $this->Html->Link(
+                    '<span class="glyphicon glyphicon-globe" aria-hidden="true"></span>',
+                    array('controller' => 'emplazamientos', 'action' => 'mapa'),
+                    array('title' => __('Mapa de Emplazamientos'), 'class' => 'btn btn-default', 'alt' => __('Mapa de Emplazamientos'), 'escape' => false)
+                );
                 ?>
             </div>
         </div>

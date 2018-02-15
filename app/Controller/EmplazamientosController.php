@@ -20,11 +20,11 @@ class EmplazamientosController extends AppController {
             $accPerm = array();
             if ($rol == 'colab') {
                 $accPerm = array(
-                    'index', 'detalle', 'editar', 'xlsexportar', 'agregar', 'agregarserv', 'borrarserv'
+                    'index', 'detalle', 'editar', 'xlsexportar', 'agregar', 'agregarserv', 'borrarserv', 'mapa'
                 );
             }
             elseif ($rol == 'consum') {
-                $accPerm = array('index', 'detalle',);
+                $accPerm = array('index', 'detalle', 'mapa');
             }
             if (in_array($this->action, $accPerm)) {
                 return true;
@@ -163,6 +163,17 @@ class EmplazamientosController extends AppController {
         $this->set('emplazamientos', $emplazamientos);
     }
 
+    public function mapa(){
+        // Fijamos el título de la vista
+        $this->set('title_for_layout', __('Emplazamiento de Telecomunicaciones'));
+        // Buscamos los emplazamientos
+        $emplazamientos = $this->Emplazamiento->find('all', array('order' => 'Emplazamiento.centro'));
+        $this->set('emplazamientos', $emplazamientos);
+
+        // Cambiamos el Layout:
+        $this->render('mapa', 'mapaindex');
+    }
+
     public function detalle ($id = null){
         // Fijamos el título de la vista
         $this->set('title_for_layout', __('Emplazamiento de Telecomunicaciones'));
@@ -222,6 +233,9 @@ class EmplazamientosController extends AppController {
                }
            }
            $this->set('emplazamiento', $emplazamiento);
+
+           // Cambiamos el Layout:
+           $this->render('detalle', 'mapa');
    }
 
     public function xlsexportar () {

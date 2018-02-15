@@ -52,6 +52,9 @@ if ($rol != 'admin'){
                             echo '<li>';
                             echo $this->Html->Link(__('Listado'),array('controller' => 'emplazamientos', 'action' => 'index'), array('title' => __('Listado')));
                             echo '</li>';
+                            echo '<li>';
+                            echo $this->Html->Link(__('Mapa'),array('controller' => 'emplazamientos', 'action' => 'mapa'), array('title' => __('Mapa')));
+                            echo '</li>';
                             echo '</ul>';
                             echo '</li>';
                             echo '<li class="dropdown';
