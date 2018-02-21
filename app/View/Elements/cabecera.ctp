@@ -12,7 +12,7 @@
 </div>
 <div class="col-md-3">
     <?php
-    echo $this->Html->image("logochmev.png", array(
+    echo $this->Html->image("cap_hisenda.png", array(
         "alt" => __('Conselleria d\'Hisenda i Model Econòmic'),
         "title" => __('Conselleria d\'Hisenda i Model Econòmic'),
         'url' => array('controller' => 'emplazamientos', 'action' => 'index')
