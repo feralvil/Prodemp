@@ -166,9 +166,88 @@ class EmplazamientosController extends AppController {
     public function mapa(){
         // Fijamos el título de la vista
         $this->set('title_for_layout', __('Emplazamiento de Telecomunicaciones'));
+
+        // Select de Titulares:
+        $opciones = array(
+            'fields' => array('Emplazamiento.entidad_id'),
+            'order' => 'Emplazamiento.entidad_id',
+            'group' => 'Emplazamiento.entidad_id'
+        );
+        $titulares = $this->Emplazamiento->find('list', $opciones);
+        $titsel = array();
+        foreach ($titulares as $titular){
+            $this->Emplazamiento->Entidad->recursive = -1;
+            $entidad = $this->Emplazamiento->Entidad->read(null, $titular);
+            $nomentidad = $entidad['Entidad']['nombre'];
+            $vectent = explode(' ', $nomentidad);
+            $entidad = $vectent[0];
+            $indice = $titular;
+            switch ($entidad) {
+                case 'Generalitat':
+                    $entidad = 'GVA';
+                    break;
+
+                case 'Ayuntamiento':
+                    $entidad = 'GVA-AYTO';
+                    $indice = 100;
+                    break;
+
+                case 'Ferrocarrils':
+                    $entidad = 'FGV';
+                    break;
+
+                case 'RadioTelevisió':
+                    $entidad = 'RTVV';
+                    break;
+
+                case 'Diputación':
+                    $entidad = 'DIP. ' . mb_strtoupper($vectent[2]);
+                    break;
+
+                default:
+                    $entidad = mb_strtoupper($entidad);
+                    break;
+            }
+            $titsel[$indice] = $entidad;
+        }
+        $this->set('titulares', $titsel);
+
         // Buscamos los emplazamientos
-        $emplazamientos = $this->Emplazamiento->find('all', array('order' => 'Emplazamiento.centro'));
-        $this->set('emplazamientos', $emplazamientos);
+        // Buscamos las condiciones del formulario:
+        $condiciones = array();
+        if ($this->request->is('post')){
+            // Select de Titular
+            if (!empty($this->request->data['Emplazamiento']['titular'])){
+                if ($this->request->data['Emplazamiento']['titular'] == 100){
+                    $addcond = array('Emplazamiento.entidad_id BETWEEN ? AND ?'  => array(6,547));
+                }
+                else{
+                    $addcond = array('Emplazamiento.entidad_id'  => $this->request->data['Emplazamiento']['titular']);
+                }
+                $condiciones = array_merge($addcond, $condiciones);
+            }
+            // Select de COMDES
+            if (!empty($this->request->data['Emplazamiento']['comdes'])){
+                $addcond = array('Emplazamiento.comdes'  => $this->request->data['Emplazamiento']['comdes']);
+                $condiciones = array_merge($addcond, $condiciones);
+            }
+            // Select de TDT-GVA
+            if (!empty($this->request->data['Emplazamiento']['tdt-gva'])){
+                $addcond = array('Emplazamiento.tdt-gva'  => $this->request->data['Emplazamiento']['tdt-gva']);
+                $condiciones = array_merge($addcond, $condiciones);
+            }
+            // Select de RTVV
+            if (!empty($this->request->data['Emplazamiento']['rtvv'])){
+                $addcond = array('Emplazamiento.rtvv'  => $this->request->data['Emplazamiento']['rtvv']);
+                $condiciones = array_merge($addcond, $condiciones);
+            }
+        }
+
+        $emplazamientos = $this->Emplazamiento->find('all', array(
+            'conditions' => $condiciones,
+            'order' => 'Emplazamiento.centro',
+        ));
+        $this->set('emplazamientos', $emplazamientos);        
 
         // Cambiamos el Layout:
         $this->render('mapa', 'mapaindex');

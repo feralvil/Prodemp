@@ -1,7 +1,58 @@
+<?php
+$this->Js->get("select");
+$this->Js->event('change', '$("#EmplazamientoMapaForm").submit()');
+$this->Js->get("input[type=radio]");
+$this->Js->event('change', '$("#EmplazamientoMapaForm").submit()');
+$nemp = count($emplazamientos);
+?>
 <h1><?php echo __('Emplazamientos de Telecomunicaciones de la Comunitat'); ?></h1>
+<?php
+echo $this->Form->create('Emplazamiento', array(
+    'inputDefaults' => array('label' => false,'div' => false),
+    'class' => 'form-horizontal'
+));
+?>
+<fieldset>
+    <legend>
+        <?php
+        echo __('Criterios de Selección') . ' &mdash; ';
+        echo $this->Html->Link(
+            '<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>',
+            array('controller' => 'emplazamientos', 'action' => 'mapa'),
+            array('title' => __('Limpiar Criterios'), 'escape' => false)
+        );
+        ?>
+    </legend>
+    <div class="form-group">
+        <?php
+        $opciones = array ('SI' => 'Sí', 'NO' => 'No');        
+        echo $this->Form->label('Emplazamiento.comdes', __('COMDES'), array('class' => 'col-sm-1 control-label'));
+        echo $this->Form->input('Emplazamiento.comdes', array('options' => $opciones, 'empty' => __('Seleccionar'), 'div' => 'col-sm-2', 'class' => 'form-control'));
+        echo $this->Form->label('Emplazamiento.tdt-gva', __('TDT GVA'), array('class' => 'col-sm-1 control-label'));
+        echo $this->Form->input('Emplazamiento.tdt-gva', array('options' => $opciones, 'empty' => __('Seleccionar'), 'div' => 'col-sm-2', 'class' => 'form-control'));
+        echo $this->Form->label('Emplazamiento.rtvv', __('TDT RTVV'), array('class' => 'col-sm-1 control-label'));
+        echo $this->Form->input('Emplazamiento.rtvv', array('options' => $opciones, 'empty' => __('Seleccionar'), 'div' => 'col-sm-2', 'class' => 'form-control'));
+        echo $this->Form->label('Emplazamiento.titular', __('Titular'), array('class' => 'col-sm-1 control-label'));
+        echo $this->Form->input('Emplazamiento.titular', array('options' => $titulares, 'empty' => __('Seleccionar'), 'div' => 'col-sm-2', 'class' => 'form-control'));
+        ?>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>
+        <?php
+        echo __('Resultados de Búsqueda');
+        if ($nemp > 0){
+            echo ' &mdash; ' . $nemp . ' ' . __('Emplazamientos');
+        }
+        ?>
+    </legend>
+</fieldset>
 <div id="map">
 	
 </div>
+<?php
+echo $this->Form->end();
+?>
 <script type="text/javascript">
     // Creamos el mapa
     var mapa = L.map('map',{
@@ -50,46 +101,133 @@
     var iconoCian = new Iconos({iconUrl: '../img/marca-cian.png'});
     var iconoLila = new Iconos({iconUrl: '../img/marca-lila.png'});
     var iconoLima = new Iconos({iconUrl: '../img/marca-lima.png'});
+    var iconoRosa = new Iconos({iconUrl: '../img/marca-rosa.png'});
+    var iconoGris = new Iconos({iconUrl: '../img/marca-gris.png'});
+    var iconoMar = new Iconos({iconUrl: '../img/marca-mar.png'});
+    var iconoMarron = new Iconos({iconUrl: '../img/marca-marron.png'});
+    var iconoGrana = new Iconos({iconUrl: '../img/marca-grana.png'});
     <?php
     foreach ($emplazamientos as $emplazamiento) {
         $comdes = substr($emplazamiento['Emplazamiento']['comdes'], 0, 1);
         $tdt = substr($emplazamiento['Emplazamiento']['tdt-gva'], 0, 1);
         $rtvv = substr($emplazamiento['Emplazamiento']['rtvv'], 0, 1);
         $servicios = $comdes . $rtvv . $tdt;
-        switch ($servicios) {
-            case 'SNN':
-                $icono = 'iconoAzul';
-                break;
+        if ((empty($this->request->data['leyenda'])) || ($this->request->data['leyenda'] == 'SERV')) {
+            $titleyenda =  __("Emplazamientos por servicio");
+            switch ($servicios) {
+                case 'SNN':
+                    $icono = 'iconoAzul';
+                    break;
 
-            case 'NSN':
-                $icono = 'iconoRojo';
-                break;
+                case 'NSN':
+                    $icono = 'iconoRojo';
+                    break;
 
-            case 'NNS':
-                $icono = 'iconoVerde';
-                break;
+                case 'NNS':
+                    $icono = 'iconoVerde';
+                    break;
 
-            case 'SSN':
-                $icono = 'iconoNaranja';
-                break;
+                case 'SSN':
+                    $icono = 'iconoNaranja';
+                    break;
 
-            case 'SNS':
-                $icono = 'iconoAmarillo';
-                break;
+                case 'SNS':
+                    $icono = 'iconoAmarillo';
+                    break;
 
-            case 'NSS':
-                $icono = 'iconoLila';
-                break;
+                case 'NSS':
+                    $icono = 'iconoLila';
+                    break;
 
-            case 'SSS':
-                $icono = 'iconoLima';
-                break;
+                case 'SSS':
+                    $icono = 'iconoLima';
+                    break;
 
-            default:
-                $icono = 'iconoCian';
-                break;
+                default:
+                    $icono = 'iconoCian';
+                    break;
+            }
+        ?>
+            colores = ['#002255', '#AA0000', '#008000', '#D45500', '#D4AA00', '#7137C8', '#00D400'],
+            etiquetas = [
+                'COMDES', 'RTVV', 'TDT-GVA', 'COMDES + RTVV', 'COMDES + TDT-GVA',
+                 'TDT-GVA + RTVV', 'COMDES, TDT-GVA + RTVV'
+            ];
+
+        <?php
         }
-    ?>
+        else{
+            $titleyenda =  __("Emplazamientos por titular");
+            $titular = substr($emplazamiento['Entidad']['nombre'], 0, 4);
+            switch ($titular) {
+                case 'Gene':
+                    $icono = 'iconoAzul';
+                    break;
+
+                case 'Corp':
+                    $icono = 'iconoRojo';
+                    break;
+
+                case 'Dipu':
+                    $dipu = substr($emplazamiento['Entidad']['nombre'], -4);
+                    if ($dipu == 'ante'){
+                        $icono = 'iconoVerde';
+                    }
+                    else{
+                        $icono = 'iconoNaranja';
+                    }
+                    break;
+
+                case 'Ayun':
+                    $icono = 'iconoAmarillo';
+                    break;
+
+                case 'Ferr':
+                    $icono = 'iconoLila';
+                    break;
+
+                case 'Cell':
+                    $icono = 'iconoLima';
+                    break;
+
+
+                case 'Voda':
+                    $icono = 'iconoGris';
+                    break;
+
+                case 'Tele':
+                    $icono = 'iconoRosa';
+                    break;
+
+                case 'Oran':
+                    $icono = 'iconoMar';
+                    break;
+
+                case 'Iber':
+                    $icono = 'iconoMarron';
+                    break;
+
+                case 'Priv':
+                    $icono = 'iconoGrana';
+                    break;
+
+                default:
+                    $icono = 'iconoCian';
+                    break;
+            }
+        ?>
+            colores = [
+                '#002255', '#AA0000', '#008000', '#D45500', '#D4AA00', '#7137C8', 
+                '#00D400', '#535D6F', '#FF2AD4', '#006680', '#504416', '#501616'
+            ],
+            etiquetas = [
+                'GENERALITAT', 'CVMC', '<?php echo __("Dip. Alicante");?>', '<?php echo __("Dip. Castellón");?>', 
+                '<?php echo __("GVA-Ayuntamiento");?>', 'FGV', 'Cellnex', 'Vodafone', 'Telefónica', 
+                'Orange', 'Iberdrola', 'Privado/Otros'
+            ];
+        <?php
+        }
+        ?>
         var marcador = L.marker(
             [<?php echo $emplazamiento['Emplazamiento']['latitud']; ?>,
             <?php echo $emplazamiento['Emplazamiento']['longitud']; ?>],
@@ -149,14 +287,11 @@
     // Agregamos la leyenda:
     var leyenda = L.control({position: 'bottomright'});
     leyenda.onAdd = function (mapa) {
-        var div = L.DomUtil.create('div', 'info legend'),
-        colores = ['#002255', '#AA0000', '#008000', '#D45500', '#D4AA00', '#7137C8', '#00D400'],
-        etiquetas = [
-            'COMDES', 'RTVV', 'TDT-GVA', 'COMDES + RTVV', 'COMDES + TDT-GVA',
-             'TDT-GVA + RTVV', 'COMDES, TDT-GVA + RTVV'
-        ];
-        div.innerHTML = '<h4><?php echo __("Emplazamientos por servicio");?></h4>';
-
+        var div = L.DomUtil.create('div', 'info legend');
+        div.innerHTML = '<h4><?php echo __('Mostrar Leyenda');?></h4>';
+        div.innerHTML += '<input type="radio" name="leyenda" id="servicio" value="SERV" <?php if ((empty($this->request->data['leyenda'])) || ($this->request->data['leyenda'] == "SERV")) {?> checked="checked" <?php } ?>> <?php echo __('Por Servicio');?> &nbsp;';
+        div.innerHTML += '<input type="radio" name="leyenda" id="titular" value="TIT" <?php if ((!empty($this->request->data['leyenda'])) && ($this->request->data['leyenda'] == "TIT")) {?> checked="checked" <?php } ?>> <?php echo __('Por Titular');?>';
+        div.innerHTML += '<h4><?php echo $titleyenda;?></h4>';
         // Representamos los colores
         for (var i = 0; i < colores.length; i++) {
             div.innerHTML += '<i style="background:' + colores[i] + '"></i> ' + etiquetas[i] + '<br>';
